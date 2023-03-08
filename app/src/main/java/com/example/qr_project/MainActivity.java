@@ -25,3 +25,6 @@ public class MainActivity extends AppCompatActivity {
         myRef.setValue("Hello, FireStore FireBase is working now");
     }
 }
+
+
+

@@ -7,14 +7,28 @@ package com.example.qr_project;
  */
 
 
-public class FireStore {
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+public class FireStore<FirebaseDatabase, DatabaseReference> {
 
     private static FireStore getInstance() {
         return null;
     }
-
+/*
     // Access a Cloud Firestore instance from your Activity
     FireStore db = FireStore.getInstance();
+
+    FirebaseFirestore firestore;
+
+    // Write a message to database (this is a test for the firebase firestore)
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference myRef = database.getReference("message");
+
+    myRef.setValue("Hello, FireStore FireBase is working now");
+
+ */
 
 
 }
