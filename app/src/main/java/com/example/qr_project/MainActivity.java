@@ -17,6 +17,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/*
+    FireStore is now connected to FireBase.
+ */
 public class MainActivity extends AppCompatActivity {
     FirebaseFirestore firestore;
 
