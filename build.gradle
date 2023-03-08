@@ -1,3 +1,4 @@
+// buildscript must be before plugins
 buildscript {
     repositories {
         // Make sure that you have the following two repositories
