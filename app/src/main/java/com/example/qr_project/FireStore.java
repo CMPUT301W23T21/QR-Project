@@ -1,7 +1,7 @@
 package com.example.qr_project;
 
 /*
-Storing geolocation and qrcode online with firestore
+   FireStore can store the QR Codes in the collection online and remotely.
  */
 
 
