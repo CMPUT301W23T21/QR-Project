@@ -1,5 +1,7 @@
 package com.example.qr_project.activities;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -8,25 +10,33 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.qr_project.R;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class QRCodeActivity extends AppCompatActivity {
+public class QRCodeActivity<db> extends AppCompatActivity {
     /**
      * This allows to fetch the id of the "activity_qrcode" button
      * After that, it will move on the next step/page
+     *
      * @param savedInstanceState   a package to be called to execute the QRCodeActivity
      */
 
-    FirebaseFirestore db;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,10 +46,10 @@ public class QRCodeActivity extends AppCompatActivity {
 
     /**
      * Called when the user clicks the back button
-     * @param view
-     * The text view which is pressed
+     *
+     * @param view The text view which is pressed
      */
-    public void onClickBack(View view){
+    public void onClickBack(View view) {
         finish();
     }
 
@@ -101,4 +111,32 @@ public class QRCodeActivity extends AppCompatActivity {
                 .show();
     }
 
+    public void AddComment() {
+        // Create a new QR code document
+        Map<String, Object> qrCode = new HashMap<>();
+        qrCode.put("comment", "This is a comment");
+        qrCode.put("timestamp", new Date());
+        qrCode.put("location", new GeoPoint(37.4219999, -122.0840575));
+        db.collection("QR Codes").document("<QR code ID>").set(qrCode);
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        // Query the QR code document by ID
+        Task<DocumentSnapshot> documentSnapshotTask = db.collection("QR Codes").document("<QR code ID>").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        // Retrieve the comment and display it in the UI
+                        String comment = document.getString("comment");
+                        AddComment().getText(comment);
+                    } else {
+                        Log.d(TAG, "No such document");
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+    }
 }
